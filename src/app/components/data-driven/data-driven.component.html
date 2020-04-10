@@ -1,0 +1,96 @@
+<button (click)="addFruit()">Add</button>
+
+<form [formGroup]="myFormList">
+    <div formArrayName="fruits" *ngFor="let item of fruits.controls ; let i = index;">
+        <div [formGroupName]="i">
+            <label>
+                <p>Nome</p>
+                <input type="text" formControlName="name">
+                {{ myFormList.get('fruits.' + i + '.name').errors | json }}
+            </label>
+            <label>
+                <p>Preço</p>
+                <input type="text" formControlName="price">
+            </label>
+            <button (click)="removeFruit(i)" >Remove</button>
+        </div>
+    </div>
+</form>
+
+<hr>
+
+<form [formGroup]="myForm" (submit)="onSubmit()">
+    <div formGroupName="informacoes">
+        <label>
+            <p>Nome</p>
+            <input type="text" formControlName="nome">
+        </label>
+        <label>
+            <p>idade</p>
+            <input type="number" formControlName="idade">
+        </label>
+        <label>
+            <p>Email</p>
+            <input type="email" formControlName="email">
+        </label>
+        <label>
+            <p>Confirmar Email</p>
+            <input type="email" formControlName="confirmaEmail">
+        </label>
+        <div>
+            <p>Sexo</p>
+            <label>
+                <input type="radio" formControlName="sexo" [value]="'M'"> Masculino
+            </label>
+            <label>
+                <input type="radio" formControlName="sexo" [value]="'F'"> Feminino
+            </label>
+        </div>
+        <label>
+            <p>Esta empregado ?</p>
+            <input type="checkbox" formControlName="empregado">
+        </label>
+    </div>
+
+    <div formGroupName="endereco">
+        <label>
+            <p>CEP</p>
+            <input type="text" formControlName="cep" (blur)="getAddress()">
+        </label>
+        <label>
+            <p>Endereço</p>
+            <input type="text" formControlName="logradouro">
+        </label>
+        <label>
+            <p>Número</p>
+            <input type="text" formControlName="numero">
+        </label>
+        <label>
+            <p>Complemento</p>
+            <input type="text" formControlName="complemento">
+        </label>
+        <label>
+            <p>Bairro</p>
+            <input type="text" formControlName="bairro">
+        </label>
+        <label>
+            <p>Cidade</p>
+            <input type="text" formControlName="localidade">
+        </label>
+        <label>
+            <p>Estado</p>
+<!--             <input type="text" formControlName="uf">
+ -->    
+       <!--      <select formControlName="uf">
+                <option *ngFor="let state of states" [value]="state.sigla">{{ state.nome }}</option>
+            </select> -->
+
+            <select formControlName="uf" [compareWith]="compareStates">
+                <option *ngFor="let state of states" [ngValue]="state">{{ state.nome }}</option>
+            </select>
+
+        </label>
+    </div>
+
+    <button type="submit">Enviar</button>
+</form>
